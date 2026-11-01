@@ -1,0 +1,1140 @@
+{
+  "dataset_name": "DivyaKosh Model A Presence Dataset",
+  "created_at": "2026-10-31",
+  "canvas_size": [
+    480,
+    640
+  ],
+  "seed": 42,
+  "splits": {
+    "train": {
+      "NOTE": 3000,
+      "NOT_NOTE": 3000,
+      "total": 6000
+    },
+    "val": {
+      "NOTE": 600,
+      "NOT_NOTE": 600,
+      "total": 1200
+    },
+    "test": {
+      "NOTE": 600,
+      "NOT_NOTE": 600,
+      "total": 1200
+    },
+    "real_test": {
+      "NOTE": 28,
+      "NOT_NOTE": 28,
+      "total": 56
+    }
+  },
+  "not_note_distribution": {
+    "train": {
+      "empty_black_bg": 600,
+      "white_paper": 600,
+      "receipt": 600,
+      "coins": 600,
+      "wrappers": 300,
+      "ambient_shadows": 300
+    },
+    "val": {
+      "empty_black_bg": 120,
+      "white_paper": 120,
+      "receipt": 120,
+      "coins": 120,
+      "wrappers": 60,
+      "ambient_shadows": 60
+    },
+    "test": {
+      "empty_black_bg": 120,
+      "white_paper": 120,
+      "receipt": 120,
+      "coins": 120,
+      "wrappers": 60,
+      "ambient_shadows": 60
+    }
+  },
+  "qc_verification_samples": [
+    {
+      "split": "train",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 11.840584852430556,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 7.150667317708334,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 7.893834635416667,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 21.45640842013889,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 12.202094184027779,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "white_paper",
+      "file": "white_paper_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 57.54041341145833,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "white_paper",
+      "file": "white_paper_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 44.74415690104167,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "white_paper",
+      "file": "white_paper_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 59.23286349826389,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "white_paper",
+      "file": "white_paper_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 53.51650173611111,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "white_paper",
+      "file": "white_paper_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 55.63588216145833,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "receipt",
+      "file": "receipt_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 46.993297526041665,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "receipt",
+      "file": "receipt_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 44.46505099826389,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "receipt",
+      "file": "receipt_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 48.61827365451389,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "receipt",
+      "file": "receipt_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 45.304714626736114,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "receipt",
+      "file": "receipt_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 33.55666558159722,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "coins",
+      "file": "coins_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 21.434320746527778,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "coins",
+      "file": "coins_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 30.427841796875,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "coins",
+      "file": "coins_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 13.448019748263889,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "coins",
+      "file": "coins_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 19.882452256944443,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "coins",
+      "file": "coins_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 32.13564236111111,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "wrappers",
+      "file": "wrappers_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 21.259590928819446,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "wrappers",
+      "file": "wrappers_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 35.027668185763886,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "wrappers",
+      "file": "wrappers_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 18.036219618055554,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "wrappers",
+      "file": "wrappers_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 26.06091796875,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "wrappers",
+      "file": "wrappers_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 28.484174262152777,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 15.00766384548611,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 7.907209201388889,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 10.558072916666667,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 22.861200086805557,
+      "contains_banknote": false
+    },
+    {
+      "split": "train",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 7.7668250868055555,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 8.616608072916666,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 8.723003472222222,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 17.58912651909722,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 15.003133680555555,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 18.003178168402776,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "white_paper",
+      "file": "white_paper_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 37.61958875868056,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "white_paper",
+      "file": "white_paper_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 60.955325520833334,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "white_paper",
+      "file": "white_paper_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 58.30521375868056,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "white_paper",
+      "file": "white_paper_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 44.17553493923611,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "white_paper",
+      "file": "white_paper_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 49.792438151041665,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "receipt",
+      "file": "receipt_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 53.612861328125,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "receipt",
+      "file": "receipt_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 53.764409722222226,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "receipt",
+      "file": "receipt_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 46.03744683159722,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "receipt",
+      "file": "receipt_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 38.80574652777778,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "receipt",
+      "file": "receipt_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 46.56620551215278,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "coins",
+      "file": "coins_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 24.800928819444444,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "coins",
+      "file": "coins_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 11.230879991319444,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "coins",
+      "file": "coins_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 28.278186848958335,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "coins",
+      "file": "coins_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 21.672374131944444,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "coins",
+      "file": "coins_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 18.162664930555554,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "wrappers",
+      "file": "wrappers_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 33.81203667534722,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "wrappers",
+      "file": "wrappers_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 21.475397135416667,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "wrappers",
+      "file": "wrappers_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 15.976838107638889,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "wrappers",
+      "file": "wrappers_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 21.38408637152778,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "wrappers",
+      "file": "wrappers_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 25.09680881076389,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 9.50279079861111,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 4.186278211805556,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 5.791946614583333,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 7.8717643229166665,
+      "contains_banknote": false
+    },
+    {
+      "split": "val",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 4.457406684027778,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 13.432075737847223,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 11.180861545138889,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 24.433500434027778,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 7.682276475694445,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "empty_black_bg",
+      "file": "empty_black_bg_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 15.002648654513889,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "white_paper",
+      "file": "white_paper_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 57.607027994791665,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "white_paper",
+      "file": "white_paper_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 51.13259657118056,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "white_paper",
+      "file": "white_paper_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 38.47365668402778,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "white_paper",
+      "file": "white_paper_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 73.56180013020834,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "white_paper",
+      "file": "white_paper_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 50.56812934027778,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "receipt",
+      "file": "receipt_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 43.665218098958334,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "receipt",
+      "file": "receipt_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 35.27862521701389,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "receipt",
+      "file": "receipt_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 37.40257378472222,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "receipt",
+      "file": "receipt_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 36.207241753472225,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "receipt",
+      "file": "receipt_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 44.98816514756945,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "coins",
+      "file": "coins_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 18.446429036458333,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "coins",
+      "file": "coins_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 16.97381510416667,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "coins",
+      "file": "coins_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 42.56673394097222,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "coins",
+      "file": "coins_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 24.286134982638888,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "coins",
+      "file": "coins_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 12.640723741319444,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "wrappers",
+      "file": "wrappers_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 28.522173394097223,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "wrappers",
+      "file": "wrappers_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 11.488856336805556,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "wrappers",
+      "file": "wrappers_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 24.60031032986111,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "wrappers",
+      "file": "wrappers_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 27.373799913194443,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "wrappers",
+      "file": "wrappers_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 21.91049045138889,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00000.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 4.227999131944444,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00001.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 6.6505338541666665,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00002.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 10.362279730902777,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00003.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 13.299268663194445,
+      "contains_banknote": false
+    },
+    {
+      "split": "test",
+      "subcat": "ambient_shadows",
+      "file": "ambient_shadows_00004.jpg",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "mean_intensity": 11.299055989583334,
+      "contains_banknote": false
+    }
+  ],
+  "safety_certification": "All NOT_NOTE images verified procedurally free of banknote watermarks, portraits, and security features."
+}

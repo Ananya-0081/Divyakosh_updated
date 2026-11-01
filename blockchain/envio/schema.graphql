@@ -1,0 +1,60 @@
+"""
+DAANDRISHTI Provenance Indexer — GraphQL Schema
+================================================
+
+Indexes two events from DonationProvenanceRegistry (Monad Testnet, chain 10143):
+  1. ProofRegistered       → RegisteredProof entity
+  2. IssuerStatusChanged   → IssuerEvent entity
+
+Design notes:
+  - RegisteredProof.id   = proofHash (0x-hex). The contract prevents duplicate
+    registration (requires timestamp == 0), so proofHash is stable and unique.
+  - IssuerEvent.id       = txHash + "-" + logIndex, guaranteeing uniqueness even
+    if multiple IssuerStatusChanged events fire in one transaction.
+  - No proof-revocation entity: the deployed contract has no revokeProof function.
+    Issuer revocation is tracked through IssuerEvent (isAuthorized = false), but
+    this does NOT revoke existing proofs; they remain permanently valid on-chain.
+"""
+
+type RegisteredProof @entity {
+  "Unique identifier: the proofHash (0x-prefixed hex string)"
+  id: ID!
+
+  "The raw bytes32 proof hash, 0x-prefixed hex — the value registered on Monad"
+  proofHash: String!
+
+  "Source device/application identifier supplied at registration (e.g. 'webcam-0')"
+  sourceId: String!
+
+  "Wallet address that called registerProof"
+  registeredBy: String!
+
+  "block.timestamp at the time the ProofRegistered event was emitted (Unix seconds)"
+  blockTimestamp: BigInt!
+
+  "Block number of the registration transaction"
+  blockNumber: BigInt!
+
+  "Transaction hash of the registration transaction"
+  txHash: String!
+}
+
+type IssuerEvent @entity {
+  "Unique identifier: txHash + '-' + logIndex"
+  id: ID!
+
+  "Issuer wallet address whose authorization status changed"
+  issuer: String!
+
+  "true = authorization granted, false = authorization revoked"
+  isAuthorized: Boolean!
+
+  "block.timestamp at the time the IssuerStatusChanged event was emitted (Unix seconds)"
+  blockTimestamp: BigInt!
+
+  "Block number of the transaction"
+  blockNumber: BigInt!
+
+  "Transaction hash"
+  txHash: String!
+}

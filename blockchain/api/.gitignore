@@ -1,0 +1,22 @@
+# ============================================================
+# dpp-monad/api — local .gitignore
+# ============================================================
+
+# Node dependencies (belt-and-suspenders; root .gitignore also covers this)
+node_modules/
+
+# Build / native addon compilation artefacts
+build/
+*.node
+
+# Render build cache
+.render-buildpacks.json
+
+# Environment / secrets (also covered by root .gitignore)
+.env
+.env.*
+!.env.example
+env
+
+# Runtime log
+api-test.log

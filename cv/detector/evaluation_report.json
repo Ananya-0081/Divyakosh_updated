@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-10-31T16:54:27",
+  "state_machine_triggers": {
+    "fleeting_movement_rejected": true,
+    "erratic_motion_rejected": true,
+    "stable_note_accepted": true,
+    "removal_rearm_idle": true
+  },
+  "denomination_classification": {
+    "10": {
+      "tested": 30,
+      "correct": 28,
+      "accuracy": 0.9333
+    },
+    "100": {
+      "tested": 30,
+      "correct": 30,
+      "accuracy": 1.0
+    },
+    "20": {
+      "tested": 30,
+      "correct": 19,
+      "accuracy": 0.6333
+    },
+    "200": {
+      "tested": 30,
+      "correct": 30,
+      "accuracy": 1.0
+    },
+    "50": {
+      "tested": 30,
+      "correct": 30,
+      "accuracy": 1.0
+    },
+    "500": {
+      "tested": 30,
+      "correct": 27,
+      "accuracy": 0.9
+    },
+    "overall": {
+      "tested": 180,
+      "correct": 164,
+      "accuracy": 0.9111
+    }
+  },
+  "negative_frame_false_positives": {
+    "empty": {
+      "samples": 30,
+      "false_positives": 0,
+      "false_positive_rate": 0.0
+    },
+    "hand": {
+      "samples": 30,
+      "false_positives": 0,
+      "false_positive_rate": 0.0
+    },
+    "paper": {
+      "samples": 30,
+      "false_positives": 26,
+      "false_positive_rate": 0.8667
+    },
+    "object": {
+      "samples": 30,
+      "false_positives": 30,
+      "false_positive_rate": 1.0
+    }
+  },
+  "latencies": {
+    "detector_ms": 19.87,
+    "classifier_ms": 16.69
+  }
+}

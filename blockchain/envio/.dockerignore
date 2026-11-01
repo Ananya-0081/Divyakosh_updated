@@ -1,0 +1,14 @@
+# Exclude Windows-built node_modules from the Docker build context.
+# Linux dependencies are reinstalled fresh inside the container.
+node_modules/
+
+# Exclude environment files with secrets
+.env
+
+# Exclude generated files that Envio recreates during codegen
+# generated/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+*.log

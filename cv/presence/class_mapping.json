@@ -1,0 +1,10 @@
+{
+  "class_to_idx": {
+    "NOT_NOTE": 0,
+    "NOTE": 1
+  },
+  "idx_to_class": {
+    "0": "NOT_NOTE",
+    "1": "NOTE"
+  }
+}

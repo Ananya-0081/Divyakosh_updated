@@ -1,0 +1,49 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_20-f447330afe86b11d0012e0e7b888439b8423d4cf",
+  "solcVersion": "0.8.20",
+  "solcLongVersion": "0.8.20+commit.a1b79de6",
+  "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.18.1"
+  },
+  "userSourceNameMap": {
+    "contracts/DonationProvenanceRegistry.sol": "project/contracts/DonationProvenanceRegistry.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "shanghai",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/DonationProvenanceRegistry.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\n/**\r\n * @title DonationProvenanceRegistry\r\n * @dev Privacy-preserving provenance registry for AI-verified real-world donation events.\r\n */\r\ncontract DonationProvenanceRegistry {\r\n    \r\n    struct Proof {\r\n        bytes32 proofHash;\r\n        string sourceId;\r\n        uint256 timestamp;\r\n        address registeredBy;\r\n    }\r\n\r\n    // Maps proofHash -> Proof details\r\n    mapping(bytes32 => Proof) public proofs;\r\n\r\n    // Authorized issuers/devices\r\n    mapping(address => bool) public authorizedIssuers;\r\n    address public owner;\r\n\r\n    event ProofRegistered(\r\n        bytes32 indexed proofHash,\r\n        string sourceId,\r\n        uint256 timestamp,\r\n        address indexed registeredBy\r\n    );\r\n    event IssuerStatusChanged(address indexed issuer, bool isAuthorized);\r\n\r\n    modifier onlyOwner() {\r\n        require(msg.sender == owner, \"Only owner can perform this action\");\r\n        _;\r\n    }\r\n\r\n    modifier onlyAuthorized() {\r\n        require(authorizedIssuers[msg.sender] || msg.sender == owner, \"Not an authorized issuer\");\r\n        _;\r\n    }\r\n\r\n    constructor() {\r\n        owner = msg.sender;\r\n        authorizedIssuers[msg.sender] = true;\r\n    }\r\n\r\n    function setIssuerStatus(address _issuer, bool _status) external onlyOwner {\r\n        authorizedIssuers[_issuer] = _status;\r\n        emit IssuerStatusChanged(_issuer, _status);\r\n    }\r\n\r\n    /**\r\n     * @dev Registers a cryptographic proof of a donation event.\r\n     * @param _proofHash SHA-256 or Keccak-256 hash of the canonical donation record.\r\n     * @param _sourceId Unique identifier for the registering hardware/app (e.g., \"DAAN_BOX_001\").\r\n     */\r\n    function registerProof(bytes32 _proofHash, string calldata _sourceId) external onlyAuthorized {\r\n        require(proofs[_proofHash].timestamp == 0, \"Error: Proof already exists onchain\");\r\n        \r\n        proofs[_proofHash] = Proof({\r\n            proofHash: _proofHash,\r\n            sourceId: _sourceId,\r\n            timestamp: block.timestamp,\r\n            registeredBy: msg.sender\r\n        });\r\n\r\n        emit ProofRegistered(_proofHash, _sourceId, block.timestamp, msg.sender);\r\n    }\r\n\r\n    /**\r\n     * @dev Verifies whether a proof hash exists onchain.\r\n     */\r\n    function verifyProof(bytes32 _proofHash) external view returns (bool exists, string memory sourceId, uint256 timestamp, address registeredBy) {\r\n        Proof memory p = proofs[_proofHash];\r\n        if (p.timestamp > 0) {\r\n            return (true, p.sourceId, p.timestamp, p.registeredBy);\r\n        }\r\n        return (false, \"\", 0, address(0));\r\n    }\r\n}"
+      }
+    }
+  }
+}

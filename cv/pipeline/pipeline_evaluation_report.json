@@ -1,0 +1,309 @@
+{
+  "pipeline_version": "DivyaKosh v1.0 Three-Outcome Pipeline",
+  "model_a_checkpoint": "C:\\Users\\Dell\\Desktop\\hoppers - Copy\\cv\\presence\\presence_classifier_v1.pt",
+  "model_b_checkpoint": "C:\\Users\\Dell\\Desktop\\hoppers - Copy\\cv\\models\\mobilenet_v3_clean.pt",
+  "threshold_config": {
+    "presence_accept_min": 0.3,
+    "presence_reject_max": 0.05,
+    "denomination_accept_min": 0.9,
+    "denomination_margin_min": 0.45,
+    "min_sharpness": 30.0
+  },
+  "synthetic_test_results": {
+    "set_name": "synthetic_test",
+    "n_total": 1200,
+    "n_note": 600,
+    "n_not_note": 600,
+    "decision_distribution": {
+      "ACCEPT_NOTE": 555,
+      "REJECT_NOT_NOTE": 554,
+      "REVIEW": 91
+    },
+    "confusion_matrix": {
+      "tp": 555,
+      "fp": 0,
+      "fn": 45,
+      "tn": 600
+    },
+    "note_precision": 1.0,
+    "note_recall": 0.925,
+    "note_f1": 0.961039,
+    "false_acceptance_rate": 0.0,
+    "review_rate": 0.0758,
+    "notes_in_review": 45,
+    "not_note_in_review": 46,
+    "denomination_accuracy_on_accepted_notes": 0.9982,
+    "per_denomination_metrics": {
+      "10": {
+        "total": 100,
+        "tp_accepted": 95,
+        "recall_presence": 0.95,
+        "denom_accuracy_on_accepted": 0.9895
+      },
+      "20": {
+        "total": 100,
+        "tp_accepted": 90,
+        "recall_presence": 0.9,
+        "denom_accuracy_on_accepted": 1.0
+      },
+      "50": {
+        "total": 100,
+        "tp_accepted": 88,
+        "recall_presence": 0.88,
+        "denom_accuracy_on_accepted": 1.0
+      },
+      "100": {
+        "total": 100,
+        "tp_accepted": 85,
+        "recall_presence": 0.85,
+        "denom_accuracy_on_accepted": 1.0
+      },
+      "200": {
+        "total": 100,
+        "tp_accepted": 97,
+        "recall_presence": 0.97,
+        "denom_accuracy_on_accepted": 1.0
+      },
+      "500": {
+        "total": 100,
+        "tp_accepted": 100,
+        "recall_presence": 1.0,
+        "denom_accuracy_on_accepted": 1.0
+      }
+    },
+    "per_distractor_fpr": {
+      "ambient_shadows": {
+        "total": 60,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "coins": {
+        "total": 120,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "empty_black_bg": {
+        "total": 120,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "receipt": {
+        "total": 120,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "white_paper": {
+        "total": 120,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "wrappers": {
+        "total": 60,
+        "false_accepted": 0,
+        "fpr": 0.0
+      }
+    },
+    "latency_ms": {
+      "mean_ms": 30.33,
+      "std_ms": 12.42,
+      "p50_ms": 33.18,
+      "p95_ms": 46.28,
+      "max_ms": 100.94
+    }
+  },
+  "real_camera_challenge_results": {
+    "set_name": "real_camera_challenge",
+    "n_total": 102,
+    "n_note": 51,
+    "n_not_note": 51,
+    "decision_distribution": {
+      "ACCEPT_NOTE": 27,
+      "REJECT_NOT_NOTE": 54,
+      "REVIEW": 21
+    },
+    "confusion_matrix": {
+      "tp": 27,
+      "fp": 0,
+      "fn": 24,
+      "tn": 51
+    },
+    "note_precision": 1.0,
+    "note_recall": 0.529412,
+    "note_f1": 0.692308,
+    "false_acceptance_rate": 0.0,
+    "review_rate": 0.2059,
+    "notes_in_review": 17,
+    "not_note_in_review": 4,
+    "denomination_accuracy_on_accepted_notes": 0.963,
+    "per_denomination_metrics": {
+      "10": {
+        "total": 3,
+        "tp_accepted": 0,
+        "recall_presence": 0.0,
+        "denom_accuracy_on_accepted": null
+      },
+      "20": {
+        "total": 24,
+        "tp_accepted": 9,
+        "recall_presence": 0.375,
+        "denom_accuracy_on_accepted": 0.8889
+      },
+      "50": {
+        "total": 2,
+        "tp_accepted": 2,
+        "recall_presence": 1.0,
+        "denom_accuracy_on_accepted": 1.0
+      },
+      "100": {
+        "total": 10,
+        "tp_accepted": 9,
+        "recall_presence": 0.9,
+        "denom_accuracy_on_accepted": 1.0
+      },
+      "200": {
+        "total": 4,
+        "tp_accepted": 4,
+        "recall_presence": 1.0,
+        "denom_accuracy_on_accepted": 1.0
+      },
+      "500": {
+        "total": 8,
+        "tp_accepted": 3,
+        "recall_presence": 0.375,
+        "denom_accuracy_on_accepted": 1.0
+      }
+    },
+    "per_distractor_fpr": {
+      "ambient_shadows": {
+        "total": 8,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "coins": {
+        "total": 8,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "empty_black_bg": {
+        "total": 9,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "receipt": {
+        "total": 9,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "white_paper": {
+        "total": 9,
+        "false_accepted": 0,
+        "fpr": 0.0
+      },
+      "wrappers": {
+        "total": 8,
+        "false_accepted": 0,
+        "fpr": 0.0
+      }
+    },
+    "latency_ms": {
+      "mean_ms": 26.92,
+      "std_ms": 10.23,
+      "p50_ms": 21.66,
+      "p95_ms": 40.59,
+      "max_ms": 44.54
+    }
+  },
+  "example_predictions": {
+    "ACCEPT_NOTE": {
+      "image_path": "C:\\Users\\Dell\\Desktop\\hoppers - Copy\\cv\\presence\\dataset\\test\\NOTE\\note_100_00302.jpg",
+      "ground_truth_label": "NOTE",
+      "ground_truth_denomination": "100",
+      "result": {
+        "decision": "ACCEPT_NOTE",
+        "predicted_denomination": "100",
+        "presence_confidence": 0.9999,
+        "denomination_confidence": 1.0,
+        "denomination_margin": 1.0,
+        "review_reason": null,
+        "count_authorized": true,
+        "image_sharpness": 160.35,
+        "image_brightness": 27.78,
+        "latency_ms": 59.47,
+        "model_a_probs": [
+          0.0001,
+          0.9999
+        ],
+        "model_b_probs": {
+          "10": 0.0,
+          "100": 1.0,
+          "20": 0.0,
+          "200": 0.0,
+          "50": 0.0,
+          "500": 0.0
+        },
+        "timestamp": "2026-10-31T19:54:00"
+      }
+    },
+    "REJECT_NOT_NOTE": {
+      "image_path": "C:\\Users\\Dell\\Desktop\\hoppers - Copy\\cv\\presence\\dataset\\test\\NOT_NOTE\\ambient_shadows_00001.jpg",
+      "ground_truth_label": "NOT_NOTE",
+      "ground_truth_denomination": null,
+      "result": {
+        "decision": "REJECT_NOT_NOTE",
+        "predicted_denomination": null,
+        "presence_confidence": 0.0,
+        "denomination_confidence": 0.0,
+        "denomination_margin": 0.0,
+        "review_reason": null,
+        "count_authorized": false,
+        "image_sharpness": 87.0,
+        "image_brightness": 6.65,
+        "latency_ms": 17.88,
+        "model_a_probs": [
+          1.0,
+          0.0
+        ],
+        "model_b_probs": {},
+        "timestamp": "2026-10-31T19:54:26"
+      }
+    },
+    "REVIEW": {
+      "image_path": "C:\\Users\\Dell\\Desktop\\hoppers - Copy\\cv\\presence\\dataset\\test\\NOTE\\note_100_00300.jpg",
+      "ground_truth_label": "NOTE",
+      "ground_truth_denomination": "100",
+      "result": {
+        "decision": "REVIEW",
+        "predicted_denomination": "100",
+        "presence_confidence": 1.0,
+        "denomination_confidence": 0.3893,
+        "denomination_margin": 0.1295,
+        "review_reason": "Model B confidence too low: P(100)=0.389 < 0.9",
+        "count_authorized": false,
+        "image_sharpness": 339.11,
+        "image_brightness": 19.26,
+        "latency_ms": 35.44,
+        "model_a_probs": [
+          0.0,
+          1.0
+        ],
+        "model_b_probs": {
+          "10": 0.2598,
+          "100": 0.3893,
+          "20": 0.001,
+          "200": 0.0005,
+          "50": 0.0992,
+          "500": 0.2501
+        },
+        "timestamp": "2026-10-31T19:54:26"
+      }
+    }
+  },
+  "important_caveats": [
+    "Synthetic test accuracy does NOT represent real-world performance.",
+    "Real-camera results use only 102 images (51 NOTE, 51 NOT_NOTE).",
+    "Real NOT_NOTE images in real_test are synthetic distractors, not real temple objects.",
+    "False-positive risk from flowers, prasad, diyas, and envelopes is UNKNOWN.",
+    "Model A missed 33% of real banknotes at threshold 0.50 (see false_negative analysis).",
+    "Results may differ significantly in actual temple deployment."
+  ]
+}

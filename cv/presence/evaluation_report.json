@@ -1,0 +1,395 @@
+{
+  "evaluation_name": "DivyaKosh Model A (MobileNetV3-Small) vs. YOLOv8n Benchmark",
+  "timestamp": "2026-10-31",
+  "latency_benchmark": {
+    "model_a_cpu": {
+      "mean_ms": 9.01,
+      "std_ms": 0.98,
+      "p50_ms": 9.05,
+      "p95_ms": 10.31
+    },
+    "yolo_cpu": {
+      "mean_ms": 17.14,
+      "std_ms": 3.07,
+      "p50_ms": 16.13,
+      "p95_ms": 22.71
+    },
+    "speedup_factor": 1.9
+  },
+  "synthetic_test_results": {
+    "model_a": {
+      "overall": {
+        "accuracy": 1.0,
+        "note": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 600
+        },
+        "not_note": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 600
+        },
+        "false_positive_rate": 0.0,
+        "confusion_matrix": {
+          "tp": 600,
+          "tn": 600,
+          "fp": 0,
+          "fn": 0,
+          "matrix_2x2": [
+            [
+              600,
+              0
+            ],
+            [
+              0,
+              600
+            ]
+          ]
+        },
+        "total_support": 1200
+      },
+      "distractor_fpr_breakdown": {
+        "empty_black_bg": {
+          "total": 120,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "white_paper": {
+          "total": 120,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "receipt": {
+          "total": 120,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "coins": {
+          "total": 120,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "wrappers": {
+          "total": 60,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "ambient_shadows": {
+          "total": 60,
+          "fp": 0,
+          "fpr": 0.0
+        }
+      },
+      "denomination_recall_breakdown": {
+        "10": {
+          "total": 100,
+          "recall": 1.0
+        },
+        "20": {
+          "total": 100,
+          "recall": 1.0
+        },
+        "50": {
+          "total": 100,
+          "recall": 1.0
+        },
+        "100": {
+          "total": 100,
+          "recall": 1.0
+        },
+        "200": {
+          "total": 100,
+          "recall": 1.0
+        },
+        "500": {
+          "total": 100,
+          "recall": 1.0
+        }
+      }
+    },
+    "yolo": {
+      "overall": {
+        "accuracy": 0.6158,
+        "note": {
+          "precision": 0.567,
+          "recall": 0.98,
+          "f1": 0.7184,
+          "support": 600
+        },
+        "not_note": {
+          "precision": 0.9264,
+          "recall": 0.2517,
+          "f1": 0.3958,
+          "support": 600
+        },
+        "false_positive_rate": 0.7483,
+        "confusion_matrix": {
+          "tp": 588,
+          "tn": 151,
+          "fp": 449,
+          "fn": 12,
+          "matrix_2x2": [
+            [
+              151,
+              449
+            ],
+            [
+              12,
+              588
+            ]
+          ]
+        },
+        "total_support": 1200
+      },
+      "distractor_fpr_breakdown": {
+        "empty_black_bg": {
+          "total": 120,
+          "fp": 7,
+          "fpr": 0.0583
+        },
+        "white_paper": {
+          "total": 120,
+          "fp": 118,
+          "fpr": 0.9833
+        },
+        "receipt": {
+          "total": 120,
+          "fp": 113,
+          "fpr": 0.9417
+        },
+        "coins": {
+          "total": 120,
+          "fp": 120,
+          "fpr": 1.0
+        },
+        "wrappers": {
+          "total": 60,
+          "fp": 59,
+          "fpr": 0.9833
+        },
+        "ambient_shadows": {
+          "total": 60,
+          "fp": 32,
+          "fpr": 0.5333
+        }
+      },
+      "denomination_recall_breakdown": {
+        "10": {
+          "total": 100,
+          "recall": 0.98
+        },
+        "20": {
+          "total": 100,
+          "recall": 0.98
+        },
+        "50": {
+          "total": 100,
+          "recall": 0.99
+        },
+        "100": {
+          "total": 100,
+          "recall": 0.98
+        },
+        "200": {
+          "total": 100,
+          "recall": 0.99
+        },
+        "500": {
+          "total": 100,
+          "recall": 0.96
+        }
+      }
+    }
+  },
+  "real_camera_challenge_results": {
+    "model_a": {
+      "overall": {
+        "accuracy": 0.8333,
+        "note": {
+          "precision": 1.0,
+          "recall": 0.6667,
+          "f1": 0.8,
+          "support": 51
+        },
+        "not_note": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571,
+          "support": 51
+        },
+        "false_positive_rate": 0.0,
+        "confusion_matrix": {
+          "tp": 34,
+          "tn": 51,
+          "fp": 0,
+          "fn": 17,
+          "matrix_2x2": [
+            [
+              51,
+              0
+            ],
+            [
+              17,
+              34
+            ]
+          ]
+        },
+        "total_support": 102
+      },
+      "distractor_fpr_breakdown": {
+        "empty_black_bg": {
+          "total": 9,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "white_paper": {
+          "total": 9,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "receipt": {
+          "total": 9,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "coins": {
+          "total": 8,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "wrappers": {
+          "total": 8,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "ambient_shadows": {
+          "total": 8,
+          "fp": 0,
+          "fpr": 0.0
+        }
+      },
+      "denomination_recall_breakdown": {
+        "10": {
+          "total": 3,
+          "recall": 0.3333
+        },
+        "20": {
+          "total": 24,
+          "recall": 0.75
+        },
+        "50": {
+          "total": 2,
+          "recall": 0.5
+        },
+        "100": {
+          "total": 10,
+          "recall": 0.9
+        },
+        "200": {
+          "total": 4,
+          "recall": 0.5
+        },
+        "500": {
+          "total": 8,
+          "recall": 0.375
+        }
+      }
+    },
+    "yolo": {
+      "overall": {
+        "accuracy": 0.5588,
+        "note": {
+          "precision": 0.5349,
+          "recall": 0.902,
+          "f1": 0.6715,
+          "support": 51
+        },
+        "not_note": {
+          "precision": 0.6875,
+          "recall": 0.2157,
+          "f1": 0.3284,
+          "support": 51
+        },
+        "false_positive_rate": 0.7843,
+        "confusion_matrix": {
+          "tp": 46,
+          "tn": 11,
+          "fp": 40,
+          "fn": 5,
+          "matrix_2x2": [
+            [
+              11,
+              40
+            ],
+            [
+              5,
+              46
+            ]
+          ]
+        },
+        "total_support": 102
+      },
+      "distractor_fpr_breakdown": {
+        "empty_black_bg": {
+          "total": 9,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "white_paper": {
+          "total": 9,
+          "fp": 9,
+          "fpr": 1.0
+        },
+        "receipt": {
+          "total": 9,
+          "fp": 8,
+          "fpr": 0.8889
+        },
+        "coins": {
+          "total": 8,
+          "fp": 8,
+          "fpr": 1.0
+        },
+        "wrappers": {
+          "total": 8,
+          "fp": 8,
+          "fpr": 1.0
+        },
+        "ambient_shadows": {
+          "total": 8,
+          "fp": 7,
+          "fpr": 0.875
+        }
+      },
+      "denomination_recall_breakdown": {
+        "10": {
+          "total": 3,
+          "recall": 1.0
+        },
+        "20": {
+          "total": 24,
+          "recall": 0.875
+        },
+        "50": {
+          "total": 2,
+          "recall": 1.0
+        },
+        "100": {
+          "total": 10,
+          "recall": 0.8
+        },
+        "200": {
+          "total": 4,
+          "recall": 1.0
+        },
+        "500": {
+          "total": 8,
+          "recall": 1.0
+        }
+      }
+    }
+  }
+}

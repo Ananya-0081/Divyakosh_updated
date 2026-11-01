@@ -1,0 +1,31 @@
+{
+  "calibration_set": "C:\\Users\\Dell\\Desktop\\hoppers - Copy\\cv\\presence\\dataset\\val",
+  "n_val_note": 600,
+  "n_val_not_note": 600,
+  "target_precision": 0.999,
+  "presence_accept_min": 0.3,
+  "presence_reject_max": 0.05,
+  "denomination_accept_min": 0.9,
+  "denomination_margin_min": 0.45,
+  "min_sharpness": 30.0,
+  "selected_model_a_metrics": {
+    "accept_min": 0.3,
+    "reject_max": 0.05,
+    "note_precision": 1.0,
+    "note_recall": 1.0,
+    "review_rate": 0.0067,
+    "fpr_not_note": 0.0,
+    "notes_in_review": 0,
+    "tp": 600,
+    "fp": 0,
+    "fn": 0
+  },
+  "denomination_recall_at_threshold": {
+    "10": 1.0,
+    "20": 1.0,
+    "50": 1.0,
+    "100": 1.0,
+    "200": 1.0,
+    "500": 1.0
+  }
+}

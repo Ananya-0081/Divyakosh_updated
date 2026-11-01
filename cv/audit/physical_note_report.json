@@ -1,0 +1,25 @@
+{
+  "total_source": 2886,
+  "mapped_source": 2616,
+  "unknown_source": 0,
+  "review_source": 270,
+  "groups_per_denom": {
+    "A": 1,
+    "10": 21,
+    "20": 12,
+    "50": 13,
+    "100": 17,
+    "200": 23,
+    "500": 29
+  },
+  "conflicts": [],
+  "example_groups": {
+    "Kaggle Raw": {
+      "pn": "10_A",
+      "sources": [
+        "SRC_002578"
+      ],
+      "syn_count": 10
+    }
+  }
+}

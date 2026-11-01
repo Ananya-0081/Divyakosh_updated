@@ -1,0 +1,66 @@
+{
+  "source_pool": {
+    "black_box/10": {
+      "count": 6520,
+      "source": "mask-based"
+    },
+    "black_box/20": {
+      "count": 5450,
+      "source": "mask-based"
+    },
+    "black_box/50": {
+      "count": 4990,
+      "source": "mask-based"
+    },
+    "black_box/100": {
+      "count": 3240,
+      "source": "mask-based"
+    },
+    "black_box/200": {
+      "count": 2720,
+      "source": "mask-based"
+    },
+    "data_clean/500/SYN": {
+      "count": 1184,
+      "total_scanned": 1910,
+      "source": "mask-based (Rs500 fallback)",
+      "supervision": "tight bbox via mask extraction"
+    },
+    "data_clean/500/RC_SRC": {
+      "count": 21,
+      "total_scanned": 28,
+      "source": "full-frame bbox (Rs500 real camera)",
+      "supervision": "[WEAK] full-image bbox, 21 images only"
+    }
+  },
+  "scene_plan": {
+    "single": 486,
+    "double": 432,
+    "triple": 162,
+    "negative": 120,
+    "total": 1200
+  },
+  "rc_src_added": 21,
+  "splits": {
+    "train": {
+      "1note": 356,
+      "2note": 293,
+      "3note": 124,
+      "negative": 67,
+      "rc_fullframe": 21
+    },
+    "val": {
+      "1note": 66,
+      "2note": 69,
+      "3note": 16,
+      "negative": 29
+    },
+    "test": {
+      "1note": 64,
+      "3note": 22,
+      "2note": 70,
+      "negative": 24
+    }
+  },
+  "output_dir": "C:\\Users\\Dell\\Desktop\\hoppers - Copy\\cv\\detector\\yolo_dataset"
+}

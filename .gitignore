@@ -1,0 +1,296 @@
+# ============================================================
+# DAANDRISHTI / DIVYAKOSH
+# Smart Donation Box + Monad AI Provenance Infrastructure
+# ============================================================
+
+
+# ============================================================
+# NODE.JS / JAVASCRIPT
+# ============================================================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+.npm/
+.yarn/
+.pnpm-store/
+
+
+# ============================================================
+# PYTHON
+# ============================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+
+# ============================================================
+# VIRTUAL ENVIRONMENTS
+# ============================================================
+
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+
+# ============================================================
+# ENVIRONMENT VARIABLES / SECRETS
+# ============================================================
+
+.env
+.env.*
+!.env.example
+
+*.pem
+*.key
+secrets.json
+credentials.json
+
+
+# ============================================================
+# IDE / EDITOR
+# ============================================================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+
+# ============================================================
+# OPERATING SYSTEM
+# ============================================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# ============================================================
+# PYTHON BUILD / PACKAGE ARTIFACTS
+# ============================================================
+
+build/
+dist/
+*.egg-info/
+
+
+# ============================================================
+# PYTHON TEST / COVERAGE OUTPUT
+# ============================================================
+
+.coverage
+htmlcov/
+.pytest_cache/
+
+
+# ============================================================
+# JUPYTER
+# ============================================================
+
+.ipynb_checkpoints/
+
+
+# ============================================================
+# ML EXPERIMENT / TRAINING OUTPUTS
+# ============================================================
+
+runs/
+wandb/
+mlruns/
+tensorboard/
+checkpoints/
+
+# Temporary camera/debug data
+note_count_raw/
+debug/
+tmp/
+temp/
+
+*.tmp
+*.temp
+
+
+# ============================================================
+# ML MODEL EXPORTS / LARGE GENERATED ARTIFACTS
+# ============================================================
+
+# Keep the project's official trained model:
+# Monad_hackathon/models/mobilenet_v3_clean.pt
+
+# Ignore only common exported/temporary model formats.
+*.onnx
+*.h5
+*.keras
+*.pkl
+*.pickle
+
+
+# ============================================================
+# BLOCKCHAIN / HARDHAT
+# ============================================================
+
+artifacts/
+cache/
+coverage/
+ignition/deployments/
+broadcast/
+
+
+# ============================================================
+# FRONTEND BUILD OUTPUT
+# ============================================================
+
+# React / Vite / Next-style build output
+dist/
+build/
+out/
+.next/
+
+
+# ============================================================
+# LOCAL RUNTIME FILES
+# ============================================================
+
+# Keep project audit logs and SQLite database tracked.
+# They are part of the hackathon demonstration.
+
+# Do NOT ignore:
+# Monad_hackathon/logs/inference.jsonl
+# Monad_hackathon/sqlite/donation_box.db
+
+
+# ============================================================
+# BACKUPS
+# ============================================================
+
+*.bak
+*_backup.*
+*.orig
+*.rej
+
+
+# ============================================================
+# LOCAL DATABASE TEMPORARY FILES
+# ============================================================
+
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+
+
+# ============================================================
+# OS / LOCAL DEVELOPMENT
+# ============================================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+dpp-monad/api/api-test.log
+
+# Local environment files and secrets
+**/env
+**/env/
+**/.env
+**/.env.*
+!**/.env.example
+
+# Local runtime secrets
+dpp-monad/api/env
+dpp-monad/contracts/env
+
+
+# Local environments
+**/.venv/
+**/venv/
+**/node_modules/
+
+# Secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Local backups
+daandrishti-backups/
+
+# ML training outputs
+**/runs/
+**/wandb/
+**/mlruns/
+**/checkpoints/
+
+# Local databases and runtime files
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.log
+
+# ==========================================
+# DIVYAKOSH - NEW REPOSITORY RULES
+# ==========================================
+
+# Python environments and caches
+**/.venv/
+**/venv/
+**/__pycache__/
+*.py[cod]
+
+# Node dependencies
+**/node_modules/
+
+# Secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Local backups
+daandrishti-backups/
+
+# Computer vision datasets (preserved locally)
+cv/data_clean/
+cv/synthetic_dataset/
+cv/presence/dataset/
+
+# Generated training outputs
+cv/runs/
+**/wandb/
+**/mlruns/
+**/checkpoints/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.db-wal
+*.db-shm
+*.db-journal
+
+# Local editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

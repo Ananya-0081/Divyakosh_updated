@@ -1,0 +1,61 @@
+# ===========================================================
+# DAANDRISHTI Envio HyperIndex — Docker Compose
+# ===========================================================
+#
+# Usage:
+#   docker compose up --build         # build image + start indexer
+#   docker compose logs -f envio      # follow indexer logs
+#   docker compose down               # stop + clean envio runner
+#
+# The `envio dev` command internally starts its own
+# Postgres (port 5433) and Hasura (port 8080) containers
+# on the HOST Docker engine via the mounted socket.
+# Those containers are managed entirely by Envio.
+#
+# GraphQL endpoint accessible from Windows host:
+#   http://localhost:8080/v1/graphql
+#
+# Port summary (all on localhost from Windows host):
+#   8080  — Hasura GraphQL Engine (Envio managed)
+#   8081  — Envio indexer metrics
+#   5433  — Postgres (Envio managed, for direct DB access)
+#
+
+services:
+  envio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: daandrishti-envio
+
+    # Mount the host Docker socket so `envio dev` can spawn
+    # Postgres + Hasura containers on the host engine.
+    # Mount src/ to pick up JS handler updates.
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./src:/app/src
+      - ./config.yaml:/app/config.yaml
+      - ./schema.graphql:/app/schema.graphql
+
+    # Network: host-mode so the Envio runner container can reach the
+    # internally-spawned containers (Postgres, Hasura) that bind
+    # directly to the host network stack via the Docker socket.
+    network_mode: host
+
+    # Allow the container to talk to the internet (HyperSync, Monad RPC)
+    # and to the Docker socket.
+    environment:
+      # Envio reads these from the .env file mounted below.
+      # Keep secrets out of docker-compose.yml.
+      - ENVIO_HYPERSYNC_CLIENT_URL=https://10143.hypersync.xyz
+
+    # Load optional .env for Envio API tokens / overrides
+    env_file:
+      - path: .env
+        required: false
+
+    restart: "no"
+
+    # Run dev without -r to preserve existing indexed data and resume from checkpoint.
+    command: sh -c "npm run codegen && npm install && ./node_modules/.bin/envio dev"

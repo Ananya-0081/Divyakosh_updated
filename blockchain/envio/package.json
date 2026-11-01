@@ -1,0 +1,25 @@
+{
+  "name": "daandrishti-provenance-indexer",
+  "version": "1.0.0",
+  "description": "Envio HyperIndex for DAANDRISHTI DonationProvenanceRegistry on Monad Testnet",
+  "main": "src/EventHandlers.js",
+  "scripts": {
+    "codegen": "envio codegen",
+    "dev": "envio dev",
+    "dev-reset": "envio dev -r",
+    "start": "envio start",
+    "stop": "envio local docker-down",
+    "test": "envio test"
+  },
+  "keywords": [
+    "envio",
+    "hyperindex",
+    "monad",
+    "provenance",
+    "daandrishti"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "envio": "^3.14.0"
+  }
+}

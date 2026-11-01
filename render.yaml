@@ -1,0 +1,54 @@
+# ============================================================
+# Render Blueprint — DAANDRISHTI API (read-only deployment)
+# ============================================================
+#
+# Deployment mode: READ-ONLY
+#   - No PRIVATE_KEY is set → POST /register-proof returns HTTP 503
+#   - SQLite opened readonly:true — no DB writes possible
+#   - original_records.json is read-only at startup (file exists)
+#
+# Root directory is the repo ROOT (not dpp-monad/api/) so that
+# the relative paths ../../Monad_hackathon/ resolve correctly
+# from __dirname (dpp-monad/api/).
+#
+# BEFORE DEPLOYING: ensure node_modules/ is NOT committed to git
+# (verified: 0 tracked files in dpp-monad/api/node_modules/).
+#
+# Environment variables that must be set in the Render dashboard
+# (DO NOT commit secret values here):
+#   PRIVATE_KEY          — leave unset for read-only mode
+#   RPC_URL              — optional, defaults to Monad testnet
+#   CONTRACT_ADDRESS     — optional, has hardcoded fallback
+#   OPENROUTER_API_KEY   — optional, for Qwen investigation agent
+#   QWEN_MODEL           — optional
+#   QWEN_ENABLED         — optional
+#   ENVIO_GRAPHQL_URL    — optional, defaults to localhost:8080
+#   SQLITE_FILE          — optional, resolved via env var if set
+# ============================================================
+
+services:
+  - type: web
+    name: daandrishti-api
+    runtime: node
+    region: oregon
+
+    # Build from repo root so sibling dirs resolve correctly
+    rootDir: .
+
+    buildCommand: cd dpp-monad/api && npm install
+    startCommand: cd dpp-monad/api && node index.js
+
+    healthCheckPath: /
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20.18.0
+      # All secrets must be added manually in the Render dashboard.
+      # Do NOT add PRIVATE_KEY here — this is a read-only deployment.
+
+    # Free instance — ephemeral disk.
+    # original_records.json writes are blocked (no PRIVATE_KEY).
+    # Upgrade to a paid instance + persistent disk if write mode is needed.
+    plan: free

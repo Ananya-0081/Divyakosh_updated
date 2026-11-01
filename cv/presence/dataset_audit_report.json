@@ -1,0 +1,120 @@
+{
+  "status": "FAIL",
+  "checks": {
+    "split_counts": {
+      "train": {
+        "NOTE": 3000,
+        "NOT_NOTE": 3000,
+        "total": 6000
+      },
+      "val": {
+        "NOTE": 600,
+        "NOT_NOTE": 600,
+        "total": 1200
+      },
+      "test": {
+        "NOTE": 600,
+        "NOT_NOTE": 600,
+        "total": 1200
+      },
+      "real_test": {
+        "NOTE": 51,
+        "NOT_NOTE": 51,
+        "total": 102
+      }
+    },
+    "denom_counts": {
+      "train": {
+        "10": 500,
+        "20": 500,
+        "50": 500,
+        "100": 500,
+        "200": 500,
+        "500": 500
+      },
+      "val": {
+        "10": 100,
+        "20": 100,
+        "50": 100,
+        "100": 100,
+        "200": 100,
+        "500": 100
+      },
+      "test": {
+        "10": 100,
+        "20": 100,
+        "50": 100,
+        "100": 100,
+        "200": 100,
+        "500": 100
+      },
+      "real_test": {
+        "10": 3,
+        "20": 24,
+        "50": 2,
+        "100": 10,
+        "200": 4,
+        "500": 8
+      }
+    },
+    "subcat_counts": {
+      "train": {
+        "empty_black_bg": 600,
+        "white_paper": 600,
+        "receipt": 600,
+        "coins": 600,
+        "wrappers": 300,
+        "ambient_shadows": 300
+      },
+      "val": {
+        "empty_black_bg": 120,
+        "white_paper": 120,
+        "receipt": 120,
+        "coins": 120,
+        "wrappers": 60,
+        "ambient_shadows": 60
+      },
+      "test": {
+        "empty_black_bg": 120,
+        "white_paper": 120,
+        "receipt": 120,
+        "coins": 120,
+        "wrappers": 60,
+        "ambient_shadows": 60
+      },
+      "real_test": {
+        "empty_black_bg": 9,
+        "white_paper": 9,
+        "receipt": 9,
+        "coins": 8,
+        "wrappers": 8,
+        "ambient_shadows": 8
+      }
+    },
+    "source_disjoint": {
+      "pass": false,
+      "train_val_overlap": 100,
+      "train_test_overlap": 100,
+      "val_test_overlap": 600
+    },
+    "all_six_denominations_present": {
+      "pass": true
+    },
+    "contact_sheet": {
+      "pass": true,
+      "path": "C:\\Users\\Dell\\Desktop\\hoppers - Copy\\cv\\presence\\contact_sheet.jpg",
+      "total_thumbnails": 60
+    },
+    "real_camera_isolation": {
+      "pass": true,
+      "total_real_images": 102,
+      "real_train_val_hash_overlap": 0
+    },
+    "integrity": {
+      "pass": true,
+      "total_files_checked": 8502,
+      "corrupt_files": 0,
+      "completely_blank_files": 0
+    }
+  }
+}
