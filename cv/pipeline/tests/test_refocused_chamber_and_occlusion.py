@@ -72,9 +72,10 @@ class TestHandOcclusionImmunity:
         """An empty black chamber must evaluate to ABSENT."""
         bg = np.zeros((200, 200), dtype=np.uint8)
         current = np.zeros((200, 200), dtype=np.uint8)
-        status, fg_r, c_r = detect_chamber_status(bg, current)
+        status, fg_r, c_r, bbox = detect_chamber_status(bg, current)
         assert status == ChamberStatus.ABSENT
         assert fg_r < 0.08
+        assert bbox is None
 
     def test_chamber_status_detection_candidate_object(self):
         """A banknote-sized object (15-40% coverage) must evaluate to PRESENT."""
@@ -82,8 +83,10 @@ class TestHandOcclusionImmunity:
         current = np.zeros((200, 200), dtype=np.uint8)
         # 80x120 white patch = 9600 pixels / 40000 = 24% coverage
         current[40:120, 40:160] = 200
-        status, fg_r, c_r = detect_chamber_status(bg, current)
+        status, fg_r, c_r, bbox = detect_chamber_status(bg, current)
         assert status == ChamberStatus.PRESENT
+        assert bbox is not None
+        assert bbox[2] == 120 and bbox[3] == 80
 
     def test_chamber_status_detection_hand_occlusion(self):
         """High-coverage object (>85% coverage, like a hand or sleeve) must evaluate to OCCLUDED."""
@@ -91,7 +94,7 @@ class TestHandOcclusionImmunity:
         current = np.zeros((200, 200), dtype=np.uint8)
         # 190x190 patch = 90.25% coverage
         current[5:195, 5:195] = 180
-        status, fg_r, c_r = detect_chamber_status(bg, current)
+        status, fg_r, c_r, bbox = detect_chamber_status(bg, current)
         assert status == ChamberStatus.OCCLUDED
 
     def test_wait_for_removal_does_not_reset_at_twenty_nine_frames(self):

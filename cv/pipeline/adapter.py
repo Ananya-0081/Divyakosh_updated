@@ -47,6 +47,7 @@ _CV_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_INFERENCE_LOG = _CV_ROOT / "logs" / "inference.jsonl"
 DEFAULT_REVIEW_LOG = _CV_ROOT / "logs" / "review.jsonl"
 DEFAULT_REVIEW_IMAGES_DIR = _CV_ROOT / "logs" / "review_images"
+DEFAULT_ACCEPTED_IMAGES_DIR = _CV_ROOT / "logs" / "accepted_images"
 
 MODEL_VERSION_TAG = "divyakosh_v1_three_outcome"
 
@@ -108,6 +109,7 @@ def format_accepted_donation_record(
     source: str = "webcam",
     model_version: str = MODEL_VERSION_TAG,
     timestamp: Optional[str] = None,
+    image_ref: Optional[str] = None,
 ) -> dict[str, Any]:
     """
     Convert an ACCEPT_NOTE PipelineResult into a fully authorized storage/blockchain record.
@@ -152,6 +154,7 @@ def format_accepted_donation_record(
         "image_sharpness": round(float(result.image_sharpness), 2),
         "image_brightness": round(float(result.image_brightness), 2),
         "latency_ms": round(float(result.latency_ms), 2),
+        "image_ref": image_ref,
     }
 
     # Verify authorization invariants on the formatted record
@@ -212,11 +215,33 @@ def format_review_record(
 # Logging & Storage Helpers
 # ---------------------------------------------------------------------------
 
-def append_accepted_log(record: dict[str, Any], log_path: Path = DEFAULT_INFERENCE_LOG) -> None:
-    """Append an authorized donation record to the main inference.jsonl audit log."""
+def append_accepted_log(
+    record: dict[str, Any],
+    log_path: Path = DEFAULT_INFERENCE_LOG,
+    frame_bgr: Optional[np.ndarray] = None,
+    images_dir: Path = DEFAULT_ACCEPTED_IMAGES_DIR,
+) -> None:
+    """
+    Append an authorized donation record to the main inference.jsonl audit log.
+    Optionally saves the candidate image to logs/accepted_images/ for auditing.
+    """
     valid, reason = validate_for_donation(record)
     if not valid:
         raise PermissionError(f"Security check failed: cannot log unauthorized record as donation ({reason})")
+
+    image_ref = record.get("image_ref")
+    if frame_bgr is not None and image_ref is None:
+        try:
+            import cv2
+            images_dir.mkdir(parents=True, exist_ok=True)
+            ts_slug = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_%f")
+            denom_str = str(record.get("predicted_denomination", "note"))
+            fname = f"accept_{denom_str}_{ts_slug}.jpg"
+            save_path = images_dir / fname
+            cv2.imwrite(str(save_path), frame_bgr)
+            record["image_ref"] = str(save_path)
+        except Exception as err:
+            print(f"Warning: could not save accepted image ({err})")
 
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with open(log_path, "a", encoding="utf-8") as f:

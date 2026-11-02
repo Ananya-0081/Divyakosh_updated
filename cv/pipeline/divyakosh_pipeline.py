@@ -161,16 +161,21 @@ class ThresholdConfig:
     min_sharpness: float = MIN_LAPLACIAN_VARIANCE
 
     @classmethod
-    def from_file(cls, path: Path) -> "ThresholdConfig":
-        if path.exists():
-            with open(path, encoding="utf-8") as f:
+    def from_file(cls, path: Path | str) -> "ThresholdConfig":
+        p = Path(path)
+        if not p.exists():
+            raise FileNotFoundError(f"Required threshold configuration file not found: {p.resolve()}")
+        try:
+            with open(p, encoding="utf-8") as f:
                 data = json.load(f)
-            cfg = cls()
-            for k, v in data.items():
-                if hasattr(cfg, k):
-                    setattr(cfg, k, v)
-            return cfg
-        return cls()   # defaults if calibration not yet run
+        except Exception as e:
+            raise ValueError(f"Unreadable or corrupted threshold configuration file {p.resolve()}: {e}") from e
+
+        cfg = cls()
+        for k, v in data.items():
+            if hasattr(cfg, k):
+                setattr(cfg, k, v)
+        return cfg
 
 
 # ---------------------------------------------------------------------------
@@ -309,12 +314,18 @@ class DivyaKoshPipeline:
     # Public API
     # ------------------------------------------------------------------
 
-    def predict(self, pil_image: Image.Image) -> PipelineResult:
+    def predict(
+        self,
+        pil_image: Image.Image,
+        note_crop: Optional[Image.Image] = None,
+    ) -> PipelineResult:
         """
         Run the full three-outcome pipeline on one PIL image.
 
         Args:
-            pil_image: RGB PIL Image (any size; will be resized internally).
+            pil_image: RGB PIL Image of full ROI (used for quality & Model A).
+            note_crop: Optional cropped RGB PIL Image around the banknote (used for Model B).
+                       If None, Model B runs on pil_image directly.
 
         Returns:
             PipelineResult with decision, confidence scores, and metadata.
@@ -376,7 +387,8 @@ class DivyaKoshPipeline:
             )
 
         # ---- Model B: denomination classifier ----------------------------
-        b_probs_dict, top_denom, top_prob, margin = self._run_model_b(pil_rgb)
+        b_input = note_crop.convert("RGB") if note_crop is not None else pil_rgb
+        b_probs_dict, top_denom, top_prob, margin = self._run_model_b(b_input)
 
         # Model B confidence insufficient
         if top_prob < self.config.denomination_accept_min:
