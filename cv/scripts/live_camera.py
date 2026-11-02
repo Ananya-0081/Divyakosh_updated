@@ -97,6 +97,7 @@ from pipeline.adapter import (
 
 try:
     from sqlite.importer import import_single_record
+    from sqlite.queries import get_total_donation_amount
     from sqlite.config import DATABASE_FILE as _SQLITE_DB_FILE
 
     _SQLITE_AVAILABLE = True
@@ -141,6 +142,10 @@ MAX_SIZE_DRIFT_RATIO = 0.15       # Max width/height drift ratio (15%)
 MAX_FG_DRIFT_RATIO = 0.05         # Max foreground ratio drift (5%)
 BORDER_MARGIN_PIXELS = 4          # If bbox touches border (within 4px), note is clipped / entering
 MULTI_FRAME_K = 5                 # K=5 settled frames required for unanimous decision agreement
+
+# ---- SIMPLE PROTOTYPE MODE (used by the live loop; no timers) ----
+SIMPLE_CONFIRM_FRAMES = 8   # object must be in the box this many frames in a row before checking
+SIMPLE_AGREE_FRAMES = 3     # count only after this many CONSECUTIVE frames give the same denomination
 
 
 class CameraState(Enum):
@@ -478,6 +483,9 @@ def main() -> None:
     session_donations = 0
 
     # Settled-object & multi-frame confirmation state (Item A, B, C)
+    agree_denom: Optional[str] = None
+    agree_count = 0
+    last_crop_bgr: Optional[np.ndarray] = None
     settled_streak = 0
     prev_settled_bbox: Optional[Tuple[int, int, int, int]] = None
     prev_fg_ratio = 0.0
@@ -572,126 +580,45 @@ def main() -> None:
                         inspect_frame_crops = []
                         print("Box cleared and confirmed empty. Ready for next item.")
 
-            # B. WAITING FOR NOTE
+            # B. WAITING FOR NOTE (empty box: nothing is logged, nothing is counted)
             elif state == CameraState.WAITING_FOR_NOTE:
                 if chamber_status == ChamberStatus.PRESENT and current_bbox is not None:
                     state = CameraState.CONFIRMING_PRESENCE
-                    first_present_time = now
-                    settled_streak = 0
-                    prev_settled_bbox = current_bbox
-                    prev_fg_ratio = presence_ratio
-                    last_status = "DETECTING CANDIDATE NOTE..."
+                    presence_streak = 1
+                    last_status = f"DETECTING OBJECT (1/{SIMPLE_CONFIRM_FRAMES})..."
                 elif chamber_status == ChamberStatus.OCCLUDED:
-                    last_status = "CHAMBER OCCLUDED - KEEP CLEAR"
-                    settled_streak = 0
-                    first_present_time = None
+                    last_status = "HAND IN BOX - KEEP CLEAR"
+                    presence_streak = 0
                 else:
                     last_status = "WAITING FOR NOTE - PLACE ITEM INSIDE"
-                    settled_streak = 0
-                    first_present_time = None
+                    presence_streak = 0
 
-            # C. CONFIRMING TEMPORAL STABILITY (Settled-object gate: Item A)
+            # C. CONFIRMING: object must stay in the box for a few frames (NO time limit)
             elif state == CameraState.CONFIRMING_PRESENCE:
-                if chamber_status != ChamberStatus.PRESENT or current_bbox is None:
+                if chamber_status == ChamberStatus.PRESENT and current_bbox is not None:
+                    presence_streak += 1
+                    last_status = f"DETECTING OBJECT ({presence_streak}/{SIMPLE_CONFIRM_FRAMES})..."
+                    if presence_streak >= SIMPLE_CONFIRM_FRAMES:
+                        state = CameraState.INSPECTING
+                        agree_denom = None
+                        agree_count = 0
+                        last_result = None
+                elif chamber_status == ChamberStatus.ABSENT:
                     state = CameraState.WAITING_FOR_NOTE
+                    presence_streak = 0
                     last_status = "WAITING FOR NOTE - PLACE ITEM INSIDE"
-                    settled_streak = 0
-                    first_present_time = None
-                else:
-                    # 1. Border check (treat as entering or clipped if touching border)
-                    roi_h, roi_w = roi_crop.shape[:2]
-                    _dbg_frame = int(now * 30)
-                    if is_bbox_touching_border(current_bbox, roi_w, roi_h):
-                        settled_streak = 0
-                        last_status = "NOTE ENTERING OR CLIPPED - WAITING TO SETTLE..."
-                        if _dbg_frame % 15 == 0:
-                            print(f"[SETTLE] touching ROI border bbox={current_bbox} roi={roi_w}x{roi_h}")
-                    else:
-                        # 2. Stability check against previous frame
-                        if prev_settled_bbox is not None:
-                            cx = current_bbox[0] + current_bbox[2] / 2.0
-                            cy = current_bbox[1] + current_bbox[3] / 2.0
-                            pcx = prev_settled_bbox[0] + prev_settled_bbox[2] / 2.0
-                            pcy = prev_settled_bbox[1] + prev_settled_bbox[3] / 2.0
-                            center_drift = float(np.hypot(cx - pcx, cy - pcy))
-                            w_drift = abs(current_bbox[2] - prev_settled_bbox[2]) / max(prev_settled_bbox[2], 1)
-                            h_drift = abs(current_bbox[3] - prev_settled_bbox[3]) / max(prev_settled_bbox[3], 1)
-                            fg_drift = abs(presence_ratio - prev_fg_ratio)
+                # hand / unknown frames: just keep waiting (no timer, no reset)
 
-                            if (
-                                center_drift <= MAX_CENTER_DRIFT_PIXELS
-                                and w_drift <= MAX_SIZE_DRIFT_RATIO
-                                and h_drift <= MAX_SIZE_DRIFT_RATIO
-                                and fg_drift <= MAX_FG_DRIFT_RATIO
-                            ):
-                                settled_streak += 1
-                            else:
-                                settled_streak = 1
-                                if _dbg_frame % 15 == 0:
-                                    print(f"[SETTLE] moving: center_drift={center_drift:.1f}px (max {MAX_CENTER_DRIFT_PIXELS}) "
-                                          f"w_drift={w_drift:.2f} h_drift={h_drift:.2f} (max {MAX_SIZE_DRIFT_RATIO}) "
-                                          f"fg_drift={fg_drift:.3f} (max {MAX_FG_DRIFT_RATIO}) bbox={current_bbox}")
-                        else:
-                            settled_streak = 1
-
-                        prev_settled_bbox = current_bbox
-                        prev_fg_ratio = presence_ratio
-                        last_status = f"SETTLING OBJECT ({settled_streak}/{SETTLED_FRAMES_REQUIRED})..."
-
-                        if settled_streak >= SETTLED_FRAMES_REQUIRED:
-                            state = CameraState.INSPECTING
-                            inspect_frame_results = []
-                            inspect_frame_crops = []
-                            last_status = "OBJECT SETTLED - RUNNING MULTI-FRAME AI INSPECTION..."
-
-                    # 3. Timeout check (5 seconds max before routing to REVIEW)
-                    if first_present_time is not None and (now - first_present_time) >= SETTLE_TIMEOUT_SECONDS:
-                        print("\n[TIMEOUT] Object failed to settle within 5.0s -> routing to REVIEW")
-                        timeout_reason = "Object failed to settle or remained clipped/in motion for >5.0s"
-                        pil_roi = Image.fromarray(cv2.cvtColor(roi_crop, cv2.COLOR_BGR2RGB))
-                        res_timeout = PipelineResult(
-                            classification=CLS_REVIEW,
-                            operational_action=_ACT_REVIEW,
-                            predicted_denomination=None,
-                            presence_confidence=round(presence_ratio, 4),
-                            denomination_confidence=0.0,
-                            denomination_margin=0.0,
-                            review_reason=timeout_reason,
-                            count_authorized=False,
-                            image_sharpness=round(compute_laplacian_variance(pil_roi), 2),
-                            image_brightness=round(compute_brightness(pil_roi), 2),
-                            latency_ms=0.0,
-                        )
-                        last_result = res_timeout
-                        execute_review_routing(
-                            result=res_timeout,
-                            camera_index=args.camera,
-                            review_log_path=review_log_path,
-                            frame_bgr=roi_crop,
-                        )
-                        state = CameraState.WAIT_FOR_REMOVAL
-                        settled_streak = 0
-                        first_present_time = None
-
-            # D. INSPECTING WITH MULTI-FRAME AGREEMENT (Items B & C)
+            # D. INSPECTING: classify while the object is in the box (NO time limit)
             elif state == CameraState.INSPECTING:
-                if chamber_status != ChamberStatus.PRESENT or current_bbox is None:
-                    # Object removed or disturbed during multi-frame inspection
-                    state = CameraState.WAITING_FOR_NOTE
-                    inspect_frame_results = []
-                    inspect_frame_crops = []
-                    settled_streak = 0
-                    first_present_time = None
-                else:
-                    # Model A receives full ROI; Model B receives square ~10% padded note crop
+                if chamber_status == ChamberStatus.PRESENT and current_bbox is not None:
                     pil_roi = Image.fromarray(cv2.cvtColor(roi_crop, cv2.COLOR_BGR2RGB))
                     pil_note_crop = extract_square_note_crop(roi_crop, current_bbox)
-
                     try:
-                        frame_res = pipeline.predict(pil_roi, note_crop=pil_note_crop)
+                        res = pipeline.predict(pil_roi, note_crop=pil_note_crop)
                     except Exception as exc:
-                        print(f"Warning: inference exception ({exc}). Routing safely to REVIEW.")
-                        frame_res = PipelineResult(
+                        print(f"Warning: inference exception ({exc}). Treating as REVIEW.")
+                        res = PipelineResult(
                             classification=CLS_REVIEW,
                             operational_action=_ACT_REVIEW,
                             predicted_denomination=None,
@@ -704,97 +631,78 @@ def main() -> None:
                             image_brightness=0.0,
                             latency_ms=0.0,
                         )
+                    last_result = res
+                    last_crop_bgr = roi_crop.copy()
 
-                    inspect_frame_results.append(frame_res)
-                    inspect_frame_crops.append(roi_crop.copy())
-                    last_status = f"MULTI-FRAME INSPECTION ({len(inspect_frame_results)}/{MULTI_FRAME_K})..."
-
-                    if len(inspect_frame_results) >= MULTI_FRAME_K:
-                        all_accept = all(
-                            r.classification == CLS_ACCEPT and r.count_authorized for r in inspect_frame_results
-                        )
-                        denoms = [r.predicted_denomination for r in inspect_frame_results]
-                        all_same_denom = (
-                            len(set(denoms)) == 1
-                            and denoms[0] is not None
-                            and str(denoms[0]) in SUPPORTED_DENOMINATIONS
-                        )
-
-                        best_crop_bgr = inspect_frame_crops[-1]
-
-                        # Outcome 1: Every frame is ACCEPT_NOTE with unanimous denomination
-                        if all_accept and all_same_denom:
-                            final_res = inspect_frame_results[-1]
-                            mean_conf = float(np.mean([r.denomination_confidence for r in inspect_frame_results]))
-                            denom_name = DENOM_LABELS.get(final_res.predicted_denomination, final_res.predicted_denomination)
-                            last_status = f"ACCEPTED: {denom_name} ({mean_conf*100:.1f}%)"
-                            session_donations += 1
-                            last_result = final_res
-
-                            print(f"\n[MULTI-FRAME AGREED] {MULTI_FRAME_K}/{MULTI_FRAME_K} frames confirmed {denom_name} (mean conf: {mean_conf:.4f})")
-
-                            # Execute authorized counting and SAVE EXACT CROP
-                            execute_donation_acceptance(
-                                result=final_res,
-                                camera_index=args.camera,
-                                log_path=log_path,
-                                no_blockchain=args.no_blockchain,
-                                frame_bgr=best_crop_bgr,
-                            )
-
-                            state = CameraState.WAIT_FOR_REMOVAL
-
-                            if not args.continuous:
-                                draw_overlay(frame, roi_coords, last_status, fps, presence_ratio, final_res, session_donations)
-                                cv2.imshow(WINDOW_NAME, frame)
-                                cv2.waitKey(2500)
-                                print(f"\nDonation complete: {denom_name}. Exiting single-donation session.")
-                                break
-
-                        # Outcome 2: Any disagreement or non-accept -> route to REVIEW
+                    if res.classification == CLS_ACCEPT and res.count_authorized is True:
+                        if res.predicted_denomination == agree_denom:
+                            agree_count += 1
                         else:
-                            frame_details = []
-                            for idx, r in enumerate(inspect_frame_results):
-                                d_str = r.predicted_denomination or "None"
-                                frame_details.append(f"F{idx+1}:{r.classification}({d_str}, conf={r.denomination_confidence:.2f})")
-                            disagreement_reason = f"Multi-frame disagreement across {MULTI_FRAME_K} frames: {', '.join(frame_details)}"
-                            print(f"\n[MULTI-FRAME DISAGREEMENT] {disagreement_reason}")
+                            agree_denom = res.predicted_denomination
+                            agree_count = 1
+                        last_status = f"CHECKING NOTE ({agree_count}/{SIMPLE_AGREE_FRAMES})..."
+                    else:
+                        agree_denom = None
+                        agree_count = 0
+                        last_status = f"REVIEW: {res.review_reason or 'not a clear note'}"[:90]
 
-                            first_non_accept = next(
-                                (r for r in inspect_frame_results if r.classification != CLS_ACCEPT),
-                                inspect_frame_results[0],
-                            )
+                    # Enough agreeing frames -> COUNT it
+                    if agree_count >= SIMPLE_AGREE_FRAMES:
+                        denom_name = DENOM_LABELS.get(res.predicted_denomination, res.predicted_denomination)
+                        session_donations += 1
+                        execute_donation_acceptance(
+                            result=res,
+                            camera_index=args.camera,
+                            log_path=log_path,
+                            no_blockchain=args.no_blockchain,
+                            frame_bgr=last_crop_bgr,
+                        )
+                        total_text = ""
+                        if _SQLITE_AVAILABLE and _SQLITE_DB_FILE:
+                            try:
+                                total_text = f" | TOTAL Rs. {get_total_donation_amount(_SQLITE_DB_FILE)}"
+                            except Exception:
+                                total_text = ""
+                        last_status = f"COUNTED: {denom_name}{total_text} - REMOVE NOTE"
+                        print(f"\n[COUNTED] {denom_name}{total_text}")
+                        state = CameraState.WAIT_FOR_REMOVAL
+                        absence_streak = 0
+                        if not args.continuous:
+                            draw_overlay(frame, roi_coords, last_status, fps, presence_ratio, res, session_donations)
+                            cv2.imshow(WINDOW_NAME, frame)
+                            cv2.waitKey(2500)
+                            break
 
-                            rev_res = PipelineResult(
+                elif chamber_status == ChamberStatus.ABSENT:
+                    # Object left without being counted -> ONE review record (never counted)
+                    if last_result is not None:
+                        if last_result.classification == CLS_ACCEPT:
+                            last_result = PipelineResult(
                                 classification=CLS_REVIEW,
                                 operational_action=_ACT_REVIEW,
                                 predicted_denomination=None,
-                                presence_confidence=first_non_accept.presence_confidence,
-                                denomination_confidence=first_non_accept.denomination_confidence,
-                                denomination_margin=first_non_accept.denomination_margin,
-                                review_reason=disagreement_reason,
+                                presence_confidence=last_result.presence_confidence,
+                                denomination_confidence=last_result.denomination_confidence,
+                                denomination_margin=last_result.denomination_margin,
+                                review_reason="Removed before the note was confirmed",
                                 count_authorized=False,
-                                image_sharpness=first_non_accept.image_sharpness,
-                                image_brightness=first_non_accept.image_brightness,
-                                latency_ms=first_non_accept.latency_ms,
-                                model_a_probs=first_non_accept.model_a_probs,
-                                model_b_probs=first_non_accept.model_b_probs,
+                                image_sharpness=last_result.image_sharpness,
+                                image_brightness=last_result.image_brightness,
+                                latency_ms=last_result.latency_ms,
                             )
-                            last_result = rev_res
-                            last_status = "REVIEW: Multi-frame disagreement"
-
-                            execute_review_routing(
-                                result=rev_res,
-                                camera_index=args.camera,
-                                review_log_path=review_log_path,
-                                frame_bgr=best_crop_bgr,
-                            )
-                            state = CameraState.WAIT_FOR_REMOVAL
-
-                        inspect_frame_results = []
-                        inspect_frame_crops = []
-                        settled_streak = 0
-                        first_present_time = None
+                        execute_review_routing(
+                            result=last_result,
+                            camera_index=args.camera,
+                            review_log_path=review_log_path,
+                            frame_bgr=last_crop_bgr,
+                        )
+                    state = CameraState.WAITING_FOR_NOTE
+                    presence_streak = 0
+                    agree_denom = None
+                    agree_count = 0
+                    last_result = None
+                    last_status = "WAITING FOR NOTE - PLACE ITEM INSIDE"
+                # hand / unknown frames: ignore, keep inspecting
 
             # --------------------------------------------------------
             # 4. DRAW OVERLAY & REFRESH WINDOW
