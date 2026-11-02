@@ -73,6 +73,8 @@ from pipeline.divyakosh_pipeline import (
     PipelineResult,
     SUPPORTED_DENOMINATIONS,
     ThresholdConfig,
+    compute_brightness,
+    compute_laplacian_variance,
     _ACT_COUNT,
     _ACT_REVIEW,
 )
@@ -598,9 +600,12 @@ def main() -> None:
                 else:
                     # 1. Border check (treat as entering or clipped if touching border)
                     roi_h, roi_w = roi_crop.shape[:2]
+                    _dbg_frame = int(now * 30)
                     if is_bbox_touching_border(current_bbox, roi_w, roi_h):
                         settled_streak = 0
                         last_status = "NOTE ENTERING OR CLIPPED - WAITING TO SETTLE..."
+                        if _dbg_frame % 15 == 0:
+                            print(f"[SETTLE] touching ROI border bbox={current_bbox} roi={roi_w}x{roi_h}")
                     else:
                         # 2. Stability check against previous frame
                         if prev_settled_bbox is not None:
@@ -622,6 +627,10 @@ def main() -> None:
                                 settled_streak += 1
                             else:
                                 settled_streak = 1
+                                if _dbg_frame % 15 == 0:
+                                    print(f"[SETTLE] moving: center_drift={center_drift:.1f}px (max {MAX_CENTER_DRIFT_PIXELS}) "
+                                          f"w_drift={w_drift:.2f} h_drift={h_drift:.2f} (max {MAX_SIZE_DRIFT_RATIO}) "
+                                          f"fg_drift={fg_drift:.3f} (max {MAX_FG_DRIFT_RATIO}) bbox={current_bbox}")
                         else:
                             settled_streak = 1
 
